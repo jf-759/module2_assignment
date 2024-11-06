@@ -78,20 +78,7 @@ def message_results():
 @app.route('/calculator')
 def calculator():
     """Shows the user a form to enter 2 numbers and an operation."""
-    return """
-    <form action="/calculator_results" method="GET">
-        Please enter 2 numbers and select an operator.<br/><br/>
-        <input type="number" name="operand1">
-        <select name="operation">
-            <option value="add">+</option>
-            <option value="subtract">-</option>
-            <option value="multiply">*</option>
-            <option value="divide">/</option>
-        </select>
-        <input type="number" name="operand2">
-        <input type="submit" value="Submit!">
-    </form>
-    """
+    return render_template('calculator_form.html')
 
 @app.route('/calculator_results')
 def calculator_results():
@@ -115,10 +102,10 @@ def calculator_results():
         result = operand1 / operand2
         op_symbol = '/'
     else:
-        return "Invalid operation."
+        return "Error: Invalid operation."
 
     
-    return f"You chose to {operation} {operand1} and {operand2}. Your result is: {result}."
+    return render_template('calculator_results.html', operand1 = operand1, operand2 = operand2, operation = operation, op_symbol = op_symbol, result = result)
 
 
 HOROSCOPE_PERSONALITIES = {
@@ -141,26 +128,44 @@ def horoscope_form():
     """Shows the user a form to fill out to select their horoscope."""
     return render_template('horoscope_form.html')
 
-@app.route('/horoscope_results')
+HOROSCOPE_PERSONALITIES = {
+    "aries": "Adventurous, dynamic, and energetic.",
+    "taurus": "Reliable, patient, and determined.",
+    "gemini": "Versatile, curious, and expressive.",
+    "cancer": "Emotional, intuitive, and caring.",
+    "leo": "Generous, warm-hearted, and creative.",
+    "virgo": "Practical, analytical, and hardworking.",
+    "libra": "Charming, diplomatic, and fair-minded.",
+    "scorpio": "Resourceful, passionate, and loyal.",
+    "sagittarius": "Optimistic, independent, and intellectual.",
+    "capricorn": "Disciplined, ambitious, and responsible.",
+    "aquarius": "Innovative, humanitarian, and independent.",
+    "pisces": "Compassionate, artistic, and intuitive."
+}
+
+@app.route('/horoscope_results', methods=['GET'])
 def horoscope_results():
     """Shows the user the result for their chosen horoscope."""
 
-    # TODO: Get the sign the user entered in the form, based on their birthday
-    horoscope_sign = ''
+    # Get the user's name and the selected horoscope sign from the query string
+    users_name = request.args.get('users_name')
+    horoscope_sign = request.args.get('horoscope_sign')
 
-    # TODO: Look up the user's personality in the HOROSCOPE_PERSONALITIES
-    # dictionary based on what the user entered
-    users_personality = ''
+    # Look up the user's personality in the HOROSCOPE_PERSONALITIES dictionary
+    users_personality = HOROSCOPE_PERSONALITIES.get(horoscope_sign, "Personality not found.")
 
-    # TODO: Generate a random number from 1 to 99
-    lucky_number = 0
+    # Generate a random lucky number from 1 to 99
+    lucky_number = random.randint(1, 99)
 
+    # Prepare context to pass to the template
     context = {
+        'users_name': users_name,
         'horoscope_sign': horoscope_sign,
         'personality': users_personality, 
         'lucky_number': lucky_number
     }
 
+    # Render the results in the horoscope_results.html template
     return render_template('horoscope_results.html', **context)
 
 if __name__ == '__main__':
