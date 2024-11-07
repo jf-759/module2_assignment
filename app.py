@@ -129,18 +129,18 @@ def horoscope_form():
     return render_template('horoscope_form.html')
 
 HOROSCOPE_PERSONALITIES = {
-    "aries": "Adventurous, dynamic, and energetic.",
-    "taurus": "Reliable, patient, and determined.",
-    "gemini": "Versatile, curious, and expressive.",
-    "cancer": "Emotional, intuitive, and caring.",
-    "leo": "Generous, warm-hearted, and creative.",
-    "virgo": "Practical, analytical, and hardworking.",
-    "libra": "Charming, diplomatic, and fair-minded.",
-    "scorpio": "Resourceful, passionate, and loyal.",
-    "sagittarius": "Optimistic, independent, and intellectual.",
-    "capricorn": "Disciplined, ambitious, and responsible.",
-    "aquarius": "Innovative, humanitarian, and independent.",
-    "pisces": "Compassionate, artistic, and intuitive."
+    'aries': 'Adventurous and energetic',
+    'taurus': 'Patient and reliable',
+    'gemini': 'Adaptable and versatile',
+    'cancer': 'Emotional and loving',
+    'leo': 'Generous and warmhearted',
+    'virgo': 'Modest and shy',
+    'libra': 'Easygoing and sociable',
+    'scorpio': 'Determined and forceful',
+    'sagittarius': 'Intellectual and philosophical',
+    'capricorn': 'Practical and prudent',
+    'aquarius': 'Friendly and humanitarian',
+    'pisces': 'Imaginative and sensitive'
 }
 
 @app.route('/horoscope_results', methods=['GET'])
